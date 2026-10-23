@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f766e">
+<title>Demand-to-Information Matching Formula</title>
+<style>
+  :root{
+    --bg:#f5f8f7;
+    --card:#ffffff;
+    --ink:#17312f;
+    --muted:#5c706d;
+    --primary:#0f766e;
+    --primary-dark:#0b5f59;
+    --mint:#dff5ef;
+    --line:#dce9e5;
+    --accent:#eaf7f3;
+    --shadow:0 10px 30px rgba(20,60,55,.08);
+    --radius:18px;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:
+      "Noto Sans Bengali",
+      "Noto Sans",
+      "Hind Siliguri",
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
+    line-height:1.75;
+    -webkit-text-size-adjust:100%;
+  }
+
+  .wrap{
+    width:min(100% - 28px, 980px);
+    margin:0 auto;
+  }
+
+  header{
+    padding:34px 0 22px;
+  }
+
+  .eyebrow{
+    display:inline-block;
+    padding:6px 11px;
+    border-radius:999px;
+    background:var(--mint);
+    color:var(--primary-dark);
+    font-size:.82rem;
+    font-weight:700;
+    letter-spacing:.01em;
+    margin-bottom:12px;
+  }
+
+  h1{
+    font-size:clamp(1.8rem,7vw,3rem);
+    line-height:1.18;
+    margin:0 0 14px;
+    letter-spacing:-.02em;
+  }
+
+  .lead{
+    font-size:clamp(1rem,4.2vw,1.18rem);
+    color:var(--muted);
+    margin:0;
+    max-width:780px;
+  }
+
+  section{
+    margin:18px 0;
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:20px;
+  }
+
+  .formula{
+    background:linear-gradient(135deg,#e9f8f3,#ffffff);
+    border:1px solid #cfe9e2;
+  }
+
+  .formula-title{
+    margin:0 0 12px;
+    font-size:1rem;
+    color:var(--primary-dark);
+    font-weight:800;
+  }
+
+  .formula-line{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:7px;
+    font-weight:800;
+    font-size:clamp(.95rem,3.8vw,1.12rem);
+  }
+
+  .pill{
+    display:inline-flex;
+    align-items:center;
+    padding:7px 10px;
+    border-radius:10px;
+    background:#fff;
+    border:1px solid #d4e7e2;
+  }
+
+  .arrow{
+    color:var(--primary);
+    font-weight:900;
+  }
+
+  h2{
+    font-size:clamp(1.35rem,5vw,1.8rem);
+    line-height:1.3;
+    margin:0 0 12px;
+  }
+
+  h3{
+    font-size:1.1rem;
+    line-height:1.4;
+    margin:0 0 8px;
+  }
+
+  p{margin:0 0 12px}
+  p:last-child{margin-bottom:0}
+
+  .steps{
+    display:grid;
+    gap:14px;
+  }
+
+  .step{
+    position:relative;
+    padding:18px;
+    border:1px solid var(--line);
+    border-radius:16px;
+    background:#fff;
+  }
+
+  .num{
+    width:32px;
+    height:32px;
+    display:grid;
+    place-items:center;
+    border-radius:50%;
+    background:var(--primary);
+    color:#fff;
+    font-weight:800;
+    margin-bottom:10px;
+  }
+
+  .question{
+    color:var(--primary-dark);
+    font-weight:800;
+    margin-bottom:7px;
+  }
+
+  .grid{
+    display:grid;
+    gap:14px;
+  }
+
+  .match{
+    overflow:hidden;
+    border:1px solid var(--line);
+    border-radius:16px;
+  }
+
+  .match-row{
+    display:grid;
+    grid-template-columns:1fr 1.2fr;
+    border-bottom:1px solid var(--line);
+  }
+
+  .match-row:last-child{border-bottom:0}
+
+  .match-row > div{
+    padding:13px 14px;
+  }
+
+  .match-row > div:first-child{
+    background:#f1f8f6;
+    font-weight:800;
+  }
+
+  .mini-label{
+    color:var(--muted);
+    font-size:.88rem;
+    font-weight:700;
+  }
+
+  .example{
+    background:#102f2c;
+    color:#edf9f6;
+    border-radius:16px;
+    padding:20px;
+  }
+
+  .example .label{
+    color:#9bd9cd;
+    font-size:.85rem;
+    font-weight:800;
+    margin-bottom:8px;
+  }
+
+  .example strong{
+    color:#fff;
+  }
+
+  .stack{
+    display:grid;
+    gap:10px;
+    margin-top:14px;
+  }
+
+  .stack-item{
+    padding:12px 14px;
+    border-radius:12px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.12);
+  }
+
+  .platform-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+  }
+
+  .platform{
+    padding:16px;
+    border:1px solid var(--line);
+    border-radius:15px;
+    background:#fff;
+  }
+
+  .platform strong{
+    display:block;
+    margin-bottom:5px;
+  }
+
+  .principle{
+    border-left:4px solid var(--primary);
+    background:var(--accent);
+    padding:16px 17px;
+    border-radius:0 14px 14px 0;
+  }
+
+  footer{
+    padding:24px 0 42px;
+    color:var(--muted);
+    font-size:.88rem;
+  }
+
+  @media (max-width:620px){
+    .wrap{width:min(100% - 20px, 980px)}
+    header{padding-top:24px}
+    .card{padding:16px}
+    .match-row{
+      grid-template-columns:1fr;
+    }
+    .match-row > div:first-child{
+      padding-bottom:6px;
+      border-bottom:0;
+    }
+    .match-row > div:last-child{
+      padding-top:4px;
+    }
+    .platform-grid{
+      grid-template-columns:1fr;
+    }
+    .formula-line{
+      gap:5px;
+    }
+    .arrow{
+      flex-basis:100%;
+      line-height:1;
+      text-align:center;
+      transform:rotate(90deg);
+      height:12px;
+    }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <header>
+      <span class="eyebrow">INFO PROVIDER FRAMEWORK</span>
+      <h1>Demand-to-Information Matching Formula</h1>
+      <p class="lead">
+        মানুষের immediate-purpose-driven information demand-কে satisfy করতে
+        আপনার কাছে থাকা information-এর কোন অংশ, কোন কাজে এবং কোন মাধ্যমে ব্যবহার করবেন—
+        তার একটি সহজ সিদ্ধান্ত-সূত্র।
+      </p>
+    </header>
+
+    <section class="card formula">
+      <div class="formula-title">মূল সূত্র</div>
+      <div class="formula-line">
+        <span class="pill">Demand</span>
+        <span class="arrow">→</span>
+        <span class="pill">Immediate Purpose</span>
+        <span class="arrow">→</span>
+        <span class="pill">Required Outcome</span>
+        <span class="arrow">→</span>
+        <span class="pill">Information Role</span>
+        <span class="arrow">→</span>
+        <span class="pill">Content Job</span>
+        <span class="arrow">→</span>
+        <span class="pill">Framework</span>
+        <span class="arrow">→</span>
+        <span class="pill">Platform</span>
+        <span class="arrow">→</span>
+        <span class="pill">Format</span>
+      </div>
+    </section>
+
+    <section>
+      <div class="card">
+        <h2>১. Demand শনাক্ত করুন</h2>
+        <p class="question">মানুষ আসলে কী চাইছে?</p>
+        <p>Immediate-purpose-driven demand সাধারণত এই ধরনের হতে পারে:</p>
+        <div class="match">
+          <div class="match-row"><div>Know</div><div>“কী ঘটেছে?”</div></div>
+          <div class="match-row"><div>Understand</div><div>“এটা কেন / কীভাবে হচ্ছে?”</div></div>
+          <div class="match-row"><div>Decide</div><div>“আমি কোনটা বেছে নেব?”</div></div>
+          <div class="match-row"><div>Solve</div><div>“আমার সমস্যার সমাধান কী?”</div></div>
+          <div class="match-row"><div>Act</div><div>“আমাকে কী করতে হবে?”</div></div>
+          <div class="match-row"><div>Avoid</div><div>“কী করলে এই ভুল এড়াতে পারব?”</div></div>
+          <div class="match-row"><div>Achieve</div><div>“আমি কীভাবে এই ফল পাব?”</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="card">
+        <h2>২. Immediate Purpose বের করুন</h2>
+        <p class="question">“এই information এখন ব্যবহার করে মানুষ কী করতে চাইছে?”</p>
+        <p>
+          একই প্রশ্নের পেছনে ভিন্ন purpose থাকতে পারে। যেমন—
+          “কেন মানুষ ভুল সিদ্ধান্ত নেয়?” কেউ curiosity থেকে জানতে পারেন,
+          আবার কেউ জানতে পারেন যাতে নিজের ভুল decision এড়াতে পারেন।
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="card">
+        <h2>৩. Required Outcome নির্ধারণ করুন</h2>
+        <p class="question">মানুষ information পাওয়ার পর কী করতে বা বুঝতে সক্ষম হবে?</p>
+        <div class="match">
+          <div class="match-row"><div>Know</div><div>প্রয়োজনীয় Fact পাওয়া</div></div>
+          <div class="match-row"><div>Understand</div><div>Explanation পাওয়া</div></div>
+          <div class="match-row"><div>Decide</div><div>Evidence + Framework</div></div>
+          <div class="match-row"><div>Solve</div><div>Mechanism + Guidance</div></div>
+          <div class="match-row"><div>Act</div><div>Guidance</div></div>
+          <div class="match-row"><div>Avoid</div><div>Mechanism + Guidance</div></div>
+          <div class="match-row"><div>Achieve</div><div>Mechanism + Framework + Guidance</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="card">
+        <h2>৪. আপনার Information-এর Role নির্ধারণ করুন</h2>
+        <p class="question">আপনার কাছে থাকা information এই demand-এর ক্ষেত্রে কী কাজ করতে পারে?</p>
+        <div class="grid">
+          <div class="step">
+            <h3>Fact</h3>
+            <p>কী ঘটেছে বা কী জানা আছে।</p>
+          </div>
+          <div class="step">
+            <h3>Explanation</h3>
+            <p>কেন বা কীভাবে ঘটে।</p>
+          </div>
+          <div class="step">
+            <h3>Mechanism</h3>
+            <p>ভিতরে কীভাবে কাজ করে।</p>
+          </div>
+          <div class="step">
+            <h3>Evidence</h3>
+            <p>কেন এটাকে বিশ্বাসযোগ্য ধরা যায়।</p>
+          </div>
+          <div class="step">
+            <h3>Guidance</h3>
+            <p>এখন কী করা যায়।</p>
+          </div>
+          <div class="step">
+            <h3>Framework</h3>
+            <p>কীভাবে নিজে বিচার বা সিদ্ধান্ত করবেন।</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="card">
+        <h2>৫. Demand-এর সঙ্গে Information Role Match করুন</h2>
+        <div class="match">
+          <div class="match-row"><div>Know</div><div>Fact</div></div>
+          <div class="match-row"><div>Understand</div><div>Explanation</div></div>
+          <div class="match-row"><div>Decide</div><div>Evidence + Framework</div></div>
+          <div class="match-row"><div>Solve</div><div>Mechanism + Guidance</div></div>
+          <div class="match-row"><div>Act</div><div>Guidance</div></div>
+          <div class="match-row"><div>Avoid</div><div>Mechanism + Guidance</div></div>
+          <div class="match-row"><div>Achieve</div><div>Mechanism + Framework + Guidance</div></div>
+        </div>
+        <p style="margin-top:14px;">
+          <strong>মূল নিয়ম:</strong> আপনার information-এর সবটা ব্যবহার করার দরকার নেই।
+          যে অংশটি immediate purpose-কে সবচেয়ে ভালো serve করে, প্রথমে সেটাই ব্যবহার করুন।
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="card">
+        <h2>৬. Content Job নির্ধারণ করুন</h2>
+        <p class="question">“এই information দিয়ে content-এ ঠিক কী কাজটি করাব?”</p>
+
+        <div class="example">
+          <div class="label">উদাহরণ: “কেন মানুষ ভুল সিদ্ধান্ত নেয়?”</div>
+          <p><strong>Immediate Purpose:</strong> Solve / Avoid</p>
+          <p><strong>আপনার Information:</strong> Decision-making-এর underlying mechanism-এর explanation</p>
+          <p><strong>Content Job:</strong> পাঠককে নিজের ভুল decision-এর mechanism চিনতে সাহায্য করা।</p>
+
+          <div class="stack">
+            <div class="stack-item">Problem</div>
+            <div class="stack-item">→ Familiar Example</div>
+            <div class="stack-item">→ Hidden Mechanism</div>
+            <div class="stack-item">→ Recognition</div>
+            <div class="stack-item">→ Practical Implication</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="card">
+        <h2>৭. Framework → Platform → Format</h2>
+        <p class="question">কোন মাধ্যমে এই particular কাজটি সবচেয়ে ভালো হবে?</p>
+
+        <div class="platform-grid">
+          <div class="platform">
+            <strong>Social Post</strong>
+            <span class="mini-label">Attention / Question</span>
+            <p>একটি observation, surprising fact বা question দিয়ে entry point তৈরি করুন।</p>
+          </div>
+
+          <div class="platform">
+            <strong>Blog / Long-form</strong>
+            <span class="mini-label">Reasoning / Understanding</span>
+            <p>Question → Reasoning → Explanation → Implication-এর মতো গভীর unfolding করুন।</p>
+          </div>
+
+          <div class="platform">
+            <strong>YouTube / Video</strong>
+            <span class="mini-label">Explanation / Demonstration</span>
+            <p>Example, visual explanation, case বা spoken reasoning ব্যবহার করুন।</p>
+          </div>
+
+          <div class="platform">
+            <strong>eBook / Book</strong>
+            <span class="mini-label">Complete Framework</span>
+            <p>Foundation → Concepts → Relationships → Mechanisms → Application সাজান।</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="card principle">
+        <h2>সবচেয়ে গুরুত্বপূর্ণ Provider Principle</h2>
+        <p>
+          আপনার কাছে information আছে বলেই সেটা publish করবেন না।
+          আগে দেখুন—এই মুহূর্তে মানুষের কী demand, তার immediate purpose কী,
+          এবং আপনার information-এর কোন অংশ সেই purpose-কে সবচেয়ে ভালোভাবে serve করতে পারে।
+        </p>
+        <p>
+          <strong>মানুষের immediate demand satisfy করা মানেই superficial information দেওয়া নয়।</strong>
+          গভীর information-কে এমনভাবে ব্যবহার করা যায় যাতে মানুষ তার তাৎক্ষণিক প্রয়োজন মেটাতে মেটাতেই
+          আরও গভীর understanding-এর দিকে ঢুকে পড়ে।
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="card formula">
+        <div class="formula-title">এক লাইনের Decision Formula</div>
+        <p style="font-size:clamp(1rem,4.3vw,1.2rem);font-weight:800;margin:0;">
+          মানুষের Demand → তার Immediate Purpose → প্রয়োজনীয় Outcome → আপনার Information-এর উপযুক্ত Role
+          → Content Job → Framework → Platform → Format
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      Information-to-Platform Selection System · Info Provider View
+    </footer>
+
+  </div>
+</body>
+</html>
