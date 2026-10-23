@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bengali-to-English Translation Protocol</title>
+  <link rel="icon" href="spm.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-gradient-start: #020617;
+      --bg-gradient-end: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.4);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --accent-primary: #22d3ee;
+      --accent-hover: #67e8f9;
+      --accent-success: #10b981;
+      --accent-danger: #f43f5e;
+      --code-bg: rgba(0, 0, 0, 0.3);
+      --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: fixed linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 60px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    h1 {
+      font-size: 2.3rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .sub-header {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent-primary);
+      letter-spacing: 0.02em;
+    }
+
+    .prompt-workflow {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .step-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 35px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .step-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .step-label {
+      font-weight: 800;
+      font-size: 0.8rem;
+      background: var(--accent-primary);
+      color: #020617;
+      padding: 5px 16px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .clear-btn {
+      background: transparent;
+      border: 1px solid var(--accent-danger);
+      color: var(--accent-danger);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .clear-btn:hover {
+      background: var(--accent-danger);
+      color: white;
+    }
+
+    label {
+      display: block;
+      color: var(--accent-primary);
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+      letter-spacing: 0.03em;
+    }
+
+    .dynamic-input {
+      width: 100%;
+      background: var(--code-bg);
+      border: 1px solid var(--card-border);
+      padding: 16px;
+      border-radius: 12px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      line-height: 1.5;
+      outline: none;
+      resize: vertical;
+      min-height: 120px;
+      transition: border-color 0.3s;
+    }
+
+    .dynamic-input:focus {
+      border-color: var(--accent-primary);
+    }
+
+    .prompt-content {
+      background: var(--code-bg);
+      padding: 25px;
+      border-radius: 12px;
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.92rem;
+      color: #cbd5e1;
+      white-space: pre-wrap;
+      border: 1px solid rgba(255,255,255,0.05);
+      margin-bottom: 22px;
+      line-height: 1.6;
+      word-break: break-word;
+      max-height: 520px;
+      overflow-y: auto;
+    }
+
+    .prompt-content::-webkit-scrollbar { width: 8px; }
+    .prompt-content::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+    .prompt-content::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 4px; }
+
+    .btn {
+      padding: 14px 32px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.2s;
+      width: 100%;
+      text-decoration: none;
+      border: none;
+    }
+
+    .copy-btn {
+      background: rgba(34, 211, 238, 0.1);
+      color: var(--accent-primary);
+      border: 1px solid var(--accent-primary);
+    }
+
+    .copy-btn:hover {
+      background: var(--accent-primary);
+      color: #020617;
+    }
+
+    .copy-btn.copied {
+      background: var(--accent-success);
+      border-color: var(--accent-success);
+      color: white;
+    }
+
+    .footer {
+      margin-top: 80px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--card-border);
+      padding-top: 40px;
+      width: 100%;
+      padding-bottom: 40px;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 1.8rem; }
+      .sub-header { font-size: 0.95rem; }
+      .step-card { padding: 22px; }
+      .prompt-content { font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Bengali-to-English Translation Protocol</h1>
+      <p class="sub-header">(Writing-Style Identification, Style Fidelity, and Author-Controlled Translation)</p>
+    </header>
+
+    <div class="prompt-workflow">
+      
+      <!-- Multiline Dynamic Input Card -->
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-label">Input Data</span>
+          <button class="clear-btn" onclick="resetInput('inputBengaliText')">Reset</button>
+        </div>
+        <label for="inputBengaliText">[এখানে আপনার বাংলা লেখা পেস্ট করুন]</label>
+        <textarea id="inputBengaliText" class="dynamic-input" placeholder="এখানে আপনার বাংলা লেখা লিখুন বা পেস্ট করুন..." oninput="updatePrompts()"></textarea>
+      </div>
+
+      <!-- Prompt Result Cards -->
+      <div id="promptsContainer">
+        <!-- Prompts injected by JavaScript -->
+      </div>
+
+    </div>
+
+    <footer class="footer">
+      <p>Copyright &copy; <script>document.write(new Date().getFullYear())</script> Siva Prasad Mukherjee. All Rights Reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    const templates = [
+      {
+        id: 1,
+        name: "Master",
+        text: `ROLE
+
+Act as my Bengali-to-English translator, with specialised attention to literary voice, individual writing style, semantic fidelity, and natural English expression.
+
+I am the original author of every Bengali text I provide.
+
+Your primary responsibility is to translate my writing into natural English while preserving, as closely as reasonably possible, the distinctive writing style of that particular text.
+
+You must not assume that all my writings share the same style. Identify the writing style of each new text independently before translating it.
+
+STAGE 1 — IDENTIFY THE WRITING STYLE
+
+Before translating, analyse the specific Bengali text and identify its observable stylistic characteristics.
+
+Consider, where relevant:
+
+1. Tone: Reflective, conversational, intimate, assertive, analytical, provocative, lyrical, humorous, or otherwise.
+2. Sentence structure: Short or long sentences, complex constructions, fragments, sentence variety, and characteristic patterns of expression.
+3. Rhythm and pacing: How the writing moves, pauses, builds emphasis, and transitions between ideas.
+4. Rhetorical techniques: Questions, repetition, contrasts, direct address, dialogue, declarations, and deliberate emphasis.
+5. Figurative language: Metaphors, analogies, imagery, symbolism, storytelling, and unconventional expressions.
+6. Emotional character: Warmth, conviction, vulnerability, intensity, restraint, irony, or other qualities actually present in the text.
+7. Argumentative structure: How ideas develop, how objections are introduced, and how the author leads the reader through the reasoning.
+8. Author-reader relationship: Whether the author speaks as a confidant, observer, challenger, storyteller, analyst, or in another capacity.
+9. Language-specific characteristics: Bengali expressions, wordplay, cultural references, repetitions, or grammatical patterns that contribute to the author's distinctive voice.
+
+Do not force every category onto every text. Identify only the characteristics supported by the actual writing.
+
+Present a concise Writing Style Profile that describes this particular piece. Do not turn that profile into a permanent style template for my other writings.
+
+STAGE 2 — IDENTIFY TRANSLATION CONSTRAINTS
+
+Before translating, examine whether the identified writing style can be preserved while maintaining correct, natural English.
+
+Distinguish between:
+
+A. Features that can be preserved naturally
+
+Translate these directly while retaining their stylistic function. Examples include tone, emphasis, imagery, rhetorical questions, repetition, intimacy, and the progression of thought.
+
+B. Features that require a change in English structure
+
+A Bengali sentence may use a construction, word order, repetition, fragment, or expression that does not work naturally in English.
+
+First determine whether the feature is deliberate and stylistically important.
+
+If the same effect can be preserved through a natural English construction, use that construction without unnecessarily interrupting the workflow.
+
+C. Features that cannot be preserved without a material compromise
+
+If retaining the original construction would make the English grammatically incorrect, structurally defective, seriously unnatural, or materially unclear, and changing it would significantly affect my intended style, emphasis, ambiguity, or meaning, do not make that change silently.
+
+Explain the specific conflict and ask for my permission before proceeding with the affected passage.
+
+Whenever possible, offer concise alternatives, such as:
+
+- Option 1: Preserve the original construction as closely as English permits.
+- Option 2: Use natural English while preserving the intended stylistic effect.
+- Option 3: Use another clearly explained approach if neither option adequately preserves my intention.
+
+Explain the actual trade-off in plain language. Do not ask permission for routine grammatical adjustments that preserve my meaning and stylistic effect.
+
+STAGE 3 — AUTHORISATION GATE
+
+This stage is mandatory whenever a material conflict arises under Stage 2C.
+
+Before producing the final translation of the affected passage:
+
+1. Quote or identify the relevant Bengali expression.
+2. Explain why its original construction conflicts with natural or structurally correct English.
+3. Explain what would be lost or changed under the available alternatives.
+4. Ask me which approach I authorise.
+
+If I have not yet authorised a material stylistic compromise, do not silently choose an alternative and present it as the final translation.
+
+You may translate the unaffected portions provisionally, provided you clearly mark the unresolved passage and do not imply that the complete translation is final.
+
+Wait for my decision before finalising the affected passage.
+
+STAGE 4 — TRANSLATE WITH MAXIMUM STYLE FIDELITY
+
+After resolving any material conflicts, translate the complete text.
+
+Follow these rules:
+
+1. Preserve my ideas, meaning, intention, reasoning, and conclusions.
+2. Preserve the identified writing style of this particular text.
+3. Retain distinctive sentence rhythms, rhetorical patterns, repetitions, imagery, metaphors, emotional nuances, and deliberate ambiguities wherever natural English allows.
+4. Do not impose a generic English writing style on my work.
+5. Do not automatically make the text shorter, smoother, more sophisticated, more persuasive, more conventional, or more polished.
+6. Do not add new arguments, examples, explanations, transitions, or conclusions that I did not provide.
+7. Do not remove unusual expressions merely because they are unconventional.
+8. Do not replace a distinctive metaphor with a familiar English idiom unless I authorise that change.
+9. Do not soften controversial statements or intensify restrained statements.
+10. Do not confuse natural English with generic AI-style writing.
+11. Preserve the author's intended relationship with the reader, including intimacy, directness, affection, disagreement, and intellectual firmness.
+12. Make only those grammatical and structural adjustments that are necessary for natural English and do not materially compromise the original style or meaning.
+
+The objective is not literal word-for-word translation at any cost. It is maximum fidelity to the individual author's expression through natural English.
+
+STAGE 5 — FINAL QUALITY CHECK
+
+Before delivering the translation, verify:
+
+- The Writing Style Profile accurately reflects the supplied text.
+- The English follows that profile rather than an imposed generic style.
+- The original meaning and sequence of reasoning remain intact.
+- Distinctive rhetorical and emotional features have been preserved.
+- No substantive idea has been added or omitted.
+- No material stylistic compromise has been made without my authorisation.
+- The English is grammatically correct and naturally readable.
+- Any unresolved ambiguity or unavoidable loss of nuance is disclosed.
+
+REQUIRED OUTPUT FORMAT
+
+Part 1 — Writing Style Profile
+
+Briefly describe the writing style identified in the supplied Bengali text.
+
+Part 2 — Translation Constraints and Decisions
+
+Identify any material conflict between preserving the original style and producing natural English.
+
+If authorisation is required, explain the conflict and ask me before finalising the affected passage. If no material conflict exists, state that no authorisation is needed and proceed.
+
+Part 3 — English Translation
+
+Provide the complete, final translation after all necessary authorisation has been obtained.
+
+Part 4 — Translation Notes
+
+Briefly explain only the significant stylistic decisions, unavoidable compromises, or nuances that deserve my attention.
+
+Do not include unnecessary commentary.
+
+GOVERNING PRINCIPLE
+
+Identify the style of the specific Bengali text first.
+
+Preserve that style as faithfully as natural English permits.
+
+When a material conflict makes a stylistic compromise necessary, explain the problem and obtain my permission before making the change.
+
+My writing must remain recognisably my own, expressed in English that is natural without being generic.
+
+Please follow this protocol for the Bengali text I provide next.`
+      },
+      {
+        id: 2,
+        name: "Content",
+        text: `Apply my Bengali-to-English Translation Protocol to the following text.
+
+Identify the writing style of this specific piece before translating. Preserve its individual style as faithfully as natural English permits.
+
+If any material conflict requires a stylistic compromise, explain the problem and obtain my permission before finalising the affected passage.
+
+Do not assume that this text follows the style of any previous piece.
+
+BENGALI TEXT:
+
+[এখানে আপনার বাংলা লেখা পেস্ট করুন]`
+      }
+    ];
+
+    function createCards() {
+      const container = document.getElementById('promptsContainer');
+      container.innerHTML = '';
+      templates.forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'step-card';
+        card.innerHTML = `
+          <div class="step-header">
+            <span class="step-label">Prompt #${t.id} (${t.name})</span>
+          </div>
+          <div class="prompt-content" id="p${t.id}"></div>
+          <button class="btn copy-btn" onclick="copyText('p${t.id}', this, ${t.id}, '${t.name}')">
+            <span>Copy Prompt #${t.id} (${t.name})</span>
+          </button>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function updatePrompts() {
+      const bengaliInput = document.getElementById('inputBengaliText').value.trim();
+      const replacementText = bengaliInput !== "" ? bengaliInput : "[এখানে আপনার বাংলা লেখা পেস্ট করুন]";
+
+      templates.forEach(t => {
+        let updatedText = t.text;
+        if (t.id === 2) {
+          updatedText = updatedText.replace('[এখানে আপনার বাংলা লেখা পেস্ট করুন]', replacementText);
+        }
+        document.getElementById(`p${t.id}`).innerText = updatedText;
+      });
+    }
+
+    function resetInput(fieldId) {
+      document.getElementById(fieldId).value = "";
+      updatePrompts();
+    }
+
+    function copyText(id, btn, promptId, promptName) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const originalHtml = btn.innerHTML;
+        btn.innerHTML = `<span>Copied to Clipboard!</span>`;
+        btn.classList.add('copied');
+        
+        setTimeout(() => {
+          btn.innerHTML = originalHtml;
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    // Initialize on page load
+    window.onload = () => {
+      createCards();
+      updatePrompts();
+    };
+  </script>
+</body>
+</html>
