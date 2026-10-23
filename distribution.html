@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Blog, PDF/eBook &amp; Social Media Posts</title>
+  <link rel="icon" href="spm.ico">
+  <style>
+    :root {
+      --ink: #172822;
+      --muted: #62736a;
+      --paper: #f5f5ef;
+      --card: #fffefa;
+      --line: #dce4d9;
+      --green: #17634a;
+      --green-dark: #104d39;
+      --mint: #e9f3eb;
+      --amber: #e7a85e;
+      --shadow: 0 18px 48px rgba(24, 53, 39, .08);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 90% 0%, rgba(231, 168, 94, .13), transparent 28rem),
+        var(--paper);
+      font-family: "Noto Sans Bengali", "Hind Siliguri", "Bangla Sangam MN", system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      overflow-wrap: anywhere;
+    }
+
+    a { color: inherit; }
+
+    .site-header {
+      padding: clamp(1.25rem, 4vw, 3rem) 1rem 1.25rem;
+    }
+
+    .header-inner, main, .site-footer { width: min(100% - 2rem, 1040px); margin-inline: auto; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(1.5rem, 6vw, 4rem);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 30px;
+      color: #fff;
+      background: linear-gradient(130deg, #123f31, #17634a 66%, #247456);
+      box-shadow: var(--shadow);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 17rem;
+      height: 17rem;
+      right: -5rem;
+      top: -7rem;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 50%;
+      box-shadow: 0 0 0 2.2rem rgba(255,255,255,.04), 0 0 0 4.4rem rgba(255,255,255,.035);
+      pointer-events: none;
+    }
+
+    .hero-kicker, .eyebrow {
+      margin: 0 0 .55rem;
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .hero-kicker { color: #cce5d3; }
+
+    h1 {
+      max-width: 760px;
+      margin: 0;
+      font-size: clamp(2rem, 6vw, 3.7rem);
+      line-height: 1.17;
+      letter-spacing: -.035em;
+    }
+
+    .hero-mark { color: #f0bc77; }
+
+    .hero-rule {
+      width: 4.5rem;
+      height: 4px;
+      margin-top: 1.6rem;
+      border-radius: 99px;
+      background: var(--amber);
+    }
+
+    .nav-wrap {
+      position: sticky;
+      z-index: 5;
+      top: .5rem;
+      margin: 1.25rem auto 2rem;
+    }
+
+    .section-nav {
+      display: flex;
+      gap: .45rem;
+      overflow-x: auto;
+      padding: .45rem;
+      border: 1px solid rgba(220, 228, 217, .95);
+      border-radius: 999px;
+      background: rgba(255, 254, 250, .94);
+      box-shadow: 0 8px 24px rgba(24, 53, 39, .07);
+      scrollbar-width: thin;
+      backdrop-filter: blur(12px);
+    }
+
+    .section-nav a {
+      flex: 0 0 auto;
+      padding: .62rem 1rem;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: .9rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background .2s ease, color .2s ease;
+    }
+
+    .section-nav a:hover, .section-nav a:focus-visible {
+      color: #fff;
+      background: var(--green);
+      outline: none;
+    }
+
+    main { padding-bottom: 3rem; }
+
+    .section { margin: 0 0 clamp(2.5rem, 7vw, 5rem); }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 1rem;
+      margin: 0 0 1.15rem;
+      padding-bottom: .8rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-heading .eyebrow { color: var(--green); }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(1.55rem, 4vw, 2.2rem);
+      line-height: 1.3;
+      letter-spacing: -.025em;
+    }
+
+    h3 {
+      margin: 0 0 .75rem;
+      font-size: clamp(1.15rem, 3vw, 1.45rem);
+      line-height: 1.4;
+    }
+
+    h4 {
+      margin: .25rem 0 .75rem;
+      color: var(--green-dark);
+      font-size: 1.05rem;
+      line-height: 1.5;
+    }
+
+    .card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+
+    .content-card {
+      min-width: 0;
+      padding: clamp(1.1rem, 3vw, 1.55rem);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: 0 8px 25px rgba(24, 53, 39, .045);
+    }
+
+    .content-card.wide { grid-column: 1 / -1; }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem;
+      margin-bottom: .85rem;
+    }
+
+    .eyebrow { color: var(--muted); }
+
+    .copy-button {
+      display: inline-flex;
+      flex: 0 0 auto;
+      align-items: center;
+      justify-content: center;
+      gap: .42rem;
+      min-height: 42px;
+      padding: .55rem .9rem;
+      border: 1px solid #c8dacd;
+      border-radius: 999px;
+      color: var(--green-dark);
+      background: #f2f8f2;
+      font: inherit;
+      font-size: .82rem;
+      font-weight: 800;
+      line-height: 1.2;
+      cursor: pointer;
+      transition: color .2s ease, background .2s ease, border-color .2s ease, transform .2s ease;
+    }
+
+    .copy-button:hover { color: #fff; border-color: var(--green); background: var(--green); transform: translateY(-1px); }
+    .copy-button:focus-visible { outline: 3px solid #e7a85e; outline-offset: 3px; }
+    .copy-button svg { width: 15px; height: 15px; flex: 0 0 auto; }
+
+    .large-quote {
+      margin: 0;
+      color: var(--green-dark);
+      font-size: clamp(1.12rem, 2.7vw, 1.42rem);
+      font-weight: 700;
+      line-height: 1.7;
+    }
+
+    .prompt-list { display: grid; gap: .65rem; margin: 0; padding: 0; list-style: none; }
+
+    .prompt-list li {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: .75rem;
+      padding: .7rem .75rem .7rem 1rem;
+      border: 1px solid #e6ebe3;
+      border-radius: 14px;
+      background: #fbfcf8;
+    }
+
+    .prompt-list li::before {
+      content: "";
+      flex: 0 0 7px;
+      width: 7px;
+      height: 7px;
+      margin: .72rem .05rem 0 0;
+      border-radius: 50%;
+      background: var(--amber);
+    }
+
+    .prompt-list .prompt-text { flex: 1; }
+    .prompt-list .copy-button { margin-top: .1rem; }
+
+    .note {
+      margin: .85rem 0 0;
+      padding: .85rem 1rem;
+      border-left: 3px solid var(--amber);
+      border-radius: 0 12px 12px 0;
+      color: #40554a;
+      background: var(--mint);
+    }
+
+    .question-line { margin: 0 0 .85rem; font-weight: 700; }
+    .content-card p:last-child { margin-bottom: 0; }
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .45rem;
+      margin: .5rem 0 0;
+      color: var(--green-dark);
+      font-weight: 800;
+    }
+
+    .flow span { padding: .35rem .7rem; border-radius: 999px; background: var(--mint); }
+    .flow b { color: var(--amber); font-size: 1.2rem; }
+
+    .example-quote {
+      margin: .75rem 0;
+      padding: .8rem 1rem;
+      border-left: 3px solid var(--amber);
+      color: #304a3c;
+      background: #f8f5eb;
+      font-weight: 700;
+    }
+
+    .formula {
+      margin: .65rem 0;
+      padding: .85rem 1rem;
+      border: 1px solid #d9e8dc;
+      border-radius: 14px;
+      color: var(--green-dark);
+      background: #f0f7f0;
+      font-weight: 800;
+    }
+
+    .framework-list { display: grid; gap: .55rem; margin: .8rem 0 0; padding: 0; list-style: none; }
+
+    .framework-list li { padding: .6rem .8rem; border-radius: 12px; background: #f7f8f3; }
+    .framework-list strong { color: var(--green-dark); }
+
+    .quote-block {
+      margin: .75rem 0;
+      padding: 1.1rem 1.25rem;
+      border-left: 4px solid var(--amber);
+      border-radius: 0 16px 16px 0;
+      color: #304a3c;
+      background: #f8f5eb;
+      font-family: Georgia, "Noto Serif Bengali", serif;
+      font-size: clamp(1.1rem, 3vw, 1.35rem);
+      line-height: 1.6;
+    }
+
+    .copy-source {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: pre;
+      border: 0;
+    }
+
+    .site-footer {
+      padding: 1.5rem 0 2rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      text-align: center;
+      font-size: .9rem;
+    }
+
+    .site-footer p { margin: 0; }
+
+    .toast {
+      position: fixed;
+      z-index: 10;
+      right: 1rem;
+      bottom: 1rem;
+      max-width: calc(100vw - 2rem);
+      padding: .7rem 1rem;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--green-dark);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity .2s ease, transform .2s ease;
+      pointer-events: none;
+    }
+
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 680px) {
+      .header-inner, main, .site-footer { width: min(100% - 1.25rem, 1040px); }
+      .site-header { padding: .65rem .625rem 1rem; }
+      .hero { padding: 1.5rem 1.25rem; border-radius: 24px; }
+      .hero::after { right: -9rem; }
+      .nav-wrap { top: .25rem; margin: .75rem auto 1.5rem; }
+      .section-nav { border-radius: 18px; }
+      .section-nav a { padding: .55rem .78rem; font-size: .83rem; }
+      .card-grid { grid-template-columns: 1fr; }
+      .content-card.wide { grid-column: auto; }
+      .content-card { border-radius: 18px; }
+      .section-heading { align-items: start; }
+      .prompt-list li { flex-wrap: wrap; }
+      .prompt-list li .copy-button { margin-left: 1rem; }
+    }
+
+    @media (max-width: 390px) {
+      .card-head { align-items: flex-start; }
+      .copy-button { min-height: 40px; padding-inline: .72rem; font-size: .76rem; }
+      .section-nav a { padding-inline: .68rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="hero">
+        <p class="hero-kicker">Content framework</p>
+        <h1>Blog, <span class="hero-mark">PDF/eBook</span> &amp; Social Media Posts</h1>
+        <div class="hero-rule" aria-hidden="true"></div>
+      </div>
+      <div class="nav-wrap">
+        <nav class="section-nav" aria-label="Content navigation">
+          <a href="#blog">Blog</a>
+          <a href="#pdf-ebook">PDF/eBook</a>
+          <a href="#social-media">Social Media Posts</a>
+          <a href="#pdf">PDF</a>
+          <a href="#home-work">A, Home work</a>
+          <a href="#perspective-detection">Presentation Perspective Detection</a>
+          <a href="#title-perspective">7-Core Title Perspective Generator</a>
+          <a href="#beliefs">ভ্রান্ত বিশ্বাস</a>
+          <a href="#operating-rule">Operating Rule</a>
+          <a href="#quotes">Relevant Quotes</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section card-grid" aria-label="Content prompts">
+      <article class="content-card" id="blog">
+        <div class="card-head">
+          <p class="eyebrow">Blog</p>
+          <button class="copy-button" type="button" data-copy="copy-blog" aria-label="Copy Prompt: Blog">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="7" y="6" width="9" height="11" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M13 6V4.5A1.5 1.5 0 0 0 11.5 3h-7A1.5 1.5 0 0 0 3 4.5v9A1.5 1.5 0 0 0 4.5 15H7" stroke="currentColor" stroke-width="1.6"/></svg>
+            <span>Copy Prompt</span>
+          </button>
+        </div>
+        <p class="large-quote">“আপনার এই প্রশ্নের উত্তর এখানে।”</p>
+        <textarea class="copy-source" id="copy-blog" aria-hidden="true" tabindex="-1" readonly>Blog: 
+
+“আপনার এই প্রশ্নের উত্তর এখানে।”</textarea>
+      </article>
+
+      <article class="content-card" id="pdf-ebook">
+        <div class="card-head">
+          <p class="eyebrow">PDF/eBook</p>
+          <button class="copy-button" type="button" data-copy="copy-ebook" aria-label="Copy Prompt: PDF/eBook">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="7" y="6" width="9" height="11" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M13 6V4.5A1.5 1.5 0 0 0 11.5 3h-7A1.5 1.5 0 0 0 3 4.5v9A1.5 1.5 0 0 0 4.5 15H7" stroke="currentColor" stroke-width="1.6"/></svg>
+            <span>Copy Prompt</span>
+          </button>
+        </div>
+        <p class="large-quote">“এই কাজটি করার জন্য প্রয়োজনীয় সম্পূর্ণ resource এখানে।”</p>
+        <textarea class="copy-source" id="copy-ebook" aria-hidden="true" tabindex="-1" readonly>PDF/eBook: 
+
+“এই কাজটি করার জন্য প্রয়োজনীয় সম্পূর্ণ resource এখানে।”</textarea>
+      </article>
+
+      <article class="content-card wide" id="social-media">
+        <div class="card-head">
+          <p class="eyebrow">Social Media Posts</p>
+          <button class="copy-button" type="button" data-copy="copy-social" aria-label="Copy Prompt: Social Media Posts">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="7" y="6" width="9" height="11" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M13 6V4.5A1.5 1.5 0 0 0 11.5 3h-7A1.5 1.5 0 0 0 3 4.5v9A1.5 1.5 0 0 0 4.5 15H7" stroke="currentColor" stroke-width="1.6"/></svg>
+            <span>Copy Prompt</span>
+          </button>
+        </div>
+        <p class="large-quote">Introduction of the প্রশ্ন / কাজ / ইস্যু + এর অনুপস্থিতি বা উপস্থিতির ইম্প্যাক্টের গ্র্যাভিটি (প্লেস, ইম্পর্ট্যান্স, অ্যান্ড ভ্যালু)</p>
+        <textarea class="copy-source" id="copy-social" aria-hidden="true" tabindex="-1" readonly>Social Media Posts:
+
+Introduction of the প্রশ্ন / কাজ / ইস্যু + এর অনুপস্থিতি বা উপস্থিতির ইম্প্যাক্টের গ্র্যাভিটি (প্লেস, ইম্পর্ট্যান্স, অ্যান্ড ভ্যালু)</textarea>
+      </article>
+    </section>
+
+    <section class="section" id="pdf">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">PDF</p>
+          <h2>PDF</h2>
+        </div>
+      </div>
+      <div class="card-grid">
+        <article class="content-card" id="home-work">
+          <div class="card-head">
+            <h3>A, Home work</h3>
+            <button class="copy-button" type="button" data-copy="copy-homework" aria-label="Copy Prompt: A, Home work">
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="7" y="6" width="9" height="11" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M13 6V4.5A1.5 1.5 0 0 0 11.5 3h-7A1.5 1.5 0 0 0 3 4.5v9A1.5 1.5 0 0 0 4.5 15H7" stroke="currentColor" stroke-width="1.6"/></svg>
+              <span>Copy Prompt</span>
+            </button>
+          </div>
+          <ul class="prompt-list">
+            <li><span class="prompt-text">কাজটা কি?</span><button class="copy-button" type="button" data-copy="copy-home-what"><span>Copy Prompt</span></button></li>
+            <li><span class="prompt-text">কাজটা কেন?</span><button class="copy-button" type="button" data-copy="copy-home-why"><span>Copy Prompt</span></button></li>
+            <li><span class="prompt-text">কাজটা কিভাবে করতে হবে?</span><button class="copy-button" type="button" data-copy="copy-home-how"><span>Copy Prompt</span></button></li>
+          </ul>
+          <p class="note">(কি ও কিভাবে Constant, কেনটা variable)</p>
+          <textarea class="copy-source" id="copy-homework" aria-hidden="true" tabindex="-1" readonly>A, Home work
+
+কাজটা কি? 
+
+কাজটা কেন? 
+
+কাজটা কিভাবে করতে হবে?
+
+
+(কি ও কিভাবে Constant, কেনটা variable)</textarea>
+          <textarea class="copy-source" id="copy-home-what" aria-hidden="true" tabindex="-1" readonly>কাজটা কি?</textarea>
+          <textarea class="copy-source" id="copy-home-why" aria-hidden="true" tabindex="-1" readonly>কাজটা কেন?</textarea>
+          <textarea class="copy-source" id="copy-home-how" aria-hidden="true" tabindex="-1" readonly>কাজটা কিভাবে করতে হবে?</textarea>
+        </article>
+
+        <article class="content-card" id="perspective-detection">
+          <div class="card-head">
+            <h3>B, Presentation Perspective Detection</h3>
+            <button class="copy-button" type="button" data-copy="copy-perspective" aria-label="Copy Prompt: Presentation Perspective Detection">
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="7" y="6" width="9" height="11" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M13 6V4.5A1.5 1.5 0 0 0 11.5 3h-7A1.5 1.5 0 0 0 3 4.5v9A1.5 1.5 0 0 0 4.5 15H7" stroke="currentColor" stroke-width="1.6"/></svg>
+              <span>Copy Prompt</span>
+            </button>
+          </div>
+          <p class="question-line">সার্ভ করার দৃষ্টি কোন / গ্রহণ কারীর motive:</p>
+          <p>কেন is variable - কতগুলো সম্ভাব্য কেন তৈরি হওয়া সম্ভব? সেগুলো কি কি?</p>
+          <textarea class="copy-source" id="copy-perspective" aria-hidden="true" tabindex="-1" readonly>B, Presentation Perspective Detection
+
+
+সার্ভ করার দৃষ্টি কোন / গ্রহণ কারীর motive:
+
+কেন is variable - কতগুলো সম্ভাব্য কেন তৈরি হওয়া সম্ভব? সেগুলো কি কি?</textarea>
+        </article>
+
+        <article class="content-card wide" id="title-perspective">
+          <div class="card-head">
+            <h3>7-Core Title Perspective Generator</h3>
+            <button class="copy-button" type="button" data-copy="copy-title-perspective" aria-label="Copy Prompt: 7-Core Title Perspective Generator">
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="7" y="6" width="9" height="11" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M13 6V4.5A1.5 1.5 0 0 0 11.5 3h-7A1.5 1.5 0 0 0 3 4.5v9A1.5 1.5 0 0 0 4.5 15H7" stroke="currentColor" stroke-width="1.6"/></svg>
+              <span>Copy Prompt</span>
+            </button>
+          </div>
+          <textarea class="copy-source" id="copy-title-perspective" aria-hidden="true" tabindex="-1" readonly>7-Core Title Perspective Generator</textarea>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="roles-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Content roles</p>
+          <h2 id="roles-title"><strong>ভ্রান্ত বিশ্বাস, Operating Rules/Formula, Relevant Quotations</strong> — প্রতিটির ভূমিকা</h2>
+        </div>
+      </div>
+
+      <div class="card-grid">
+        <article class="content-card wide" id="beliefs">
+          <div class="card-head">
+            <h3>১. ভ্রান্ত বিশ্বাস</h3>
+            <button class="copy-button" type="button" data-copy="copy-belief" aria-label="Copy Prompt: ভ্রান্ত বিশ্বাস">
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="7" y="6" width="9" height="11" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M13 6V4.5A1.5 1.5 0 0 0 11.5 3h-7A1.5 1.5 0 0 0 3 4.5v9A1.5 1.5 0 0 0 4.5 15H7" stroke="currentColor" stroke-width="1.6"/></svg>
+              <span>Copy Prompt</span>
+            </button>
+          </div>
+          <h4>এগুলো text post বা image post—দুইভাবেই দেওয়া যায়।</h4>
+          <p>উদাহরণ:</p>
+          <blockquote class="example-quote">“অনলাইনে আয় করতে হলে আগে website বানাতে হবে।”</blockquote>
+          <p>তারপর:</p>
+          <p class="large-quote">সত্যিই কি তাই?</p>
+          <p>এখানে Social post-এর কাজ হবে <strong>belief-টাকে ভাঙা নয়, প্রশ্ন তৈরি করা</strong>।</p>
+          <p>অর্থাৎ:</p>
+          <p class="flow"><span>ভ্রান্ত বিশ্বাস</span><b>→</b><span>Cognitive friction</span><b>→</b><span>Question</span><b>→</b><span>Blog</span></p>
+          <textarea class="copy-source" id="copy-belief" aria-hidden="true" tabindex="-1" readonly>### ১. ভ্রান্ত বিশ্বাস 
+
+### এগুলো text post বা image post—দুইভাবেই দেওয়া যায়।
+
+উদাহরণ:
+
+“অনলাইনে আয় করতে হলে আগে website বানাতে হবে।”
+
+তারপর:
+
+সত্যিই কি তাই?
+
+এখানে Social post-এর কাজ হবে **belief-টাকে ভাঙা নয়, প্রশ্ন তৈরি করা**।
+
+অর্থাৎ:
+
+**ভ্রান্ত বিশ্বাস → Cognitive friction → Question → Blog**</textarea>
+        </article>
+
+        <article class="content-card wide" id="operating-rule">
+          <div class="card-head">
+            <h3>২. Operating Rule / Formula — Social-এ দেওয়া যায়</h3>
+            <button class="copy-button" type="button" data-copy="copy-operating-rule" aria-label="Copy Prompt: Operating Rule / Formula">
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="7" y="6" width="9" height="11" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M13 6V4.5A1.5 1.5 0 0 0 11.5 3h-7A1.5 1.5 0 0 0 3 4.5v9A1.5 1.5 0 0 0 4.5 15H7" stroke="currentColor" stroke-width="1.6"/></svg>
+              <span>Copy Prompt</span>
+            </button>
+          </div>
+          <h4>এগুলো আরও শক্তিশালী হতে পারে কারণ এগুলো পাঠককে “এটা কীভাবে কাজ করে?” প্রশ্নে নিয়ে যায়।</h4>
+          <p>যেমন:</p>
+          <p class="formula">Result ≠ Effort<br>The result depends on whether the action is compatible with the operating system of the problem.</p>
+          <p>তারপর Social post-এ পুরো ব্যাখ্যা না দিয়ে:</p>
+          <p class="large-quote">তাহলে কোনও কাজ করার আগে আসলে কী যাচাই করা দরকার?</p>
+          <p>এতে Rule/Formula হয়ে যায় <strong>question generator</strong>।</p>
+          <p>তবে একটি গুরুত্বপূর্ণ distinction রাখুন:</p>
+          <ul class="framework-list">
+            <li><strong>Social:</strong> Rule/Formula-এর ধারণা বা surface expression</li>
+            <li><strong>Blog:</strong> Rule/Formula-এর explanation, application ও reasoning</li>
+            <li><strong>Concept Proposition:</strong> Rule-টি যে বৃহত্তর conceptual framework-এর অংশ</li>
+          </ul>
+          <textarea class="copy-source" id="copy-operating-rule" aria-hidden="true" tabindex="-1" readonly>### ২. Operating Rule / Formula — Social-এ দেওয়া যায়
+
+### এগুলো আরও শক্তিশালী হতে পারে কারণ এগুলো পাঠককে “এটা কীভাবে কাজ করে?” প্রশ্নে নিয়ে যায়।
+
+যেমন:
+
+**Result ≠ Effort**\
+The result depends on whether the action is compatible with the operating system of the problem.
+
+তারপর Social post-এ পুরো ব্যাখ্যা না দিয়ে:
+
+তাহলে কোনও কাজ করার আগে আসলে কী যাচাই করা দরকার?
+
+এতে Rule/Formula হয়ে যায় **question generator**।
+
+তবে একটি গুরুত্বপূর্ণ distinction রাখুন:
+
+**Social:** Rule/Formula-এর ধারণা বা surface expression\
+**Blog:** Rule/Formula-এর explanation, application ও reasoning\
+**Concept Proposition:** Rule-টি যে বৃহত্তর conceptual framework-এর অংশ</textarea>
+        </article>
+
+        <article class="content-card wide" id="quotes">
+          <div class="card-head">
+            <h3>৩. Relevant Quotes — সবচেয়ে বেশি সতর্কতা দরকার</h3>
+            <button class="copy-button" type="button" data-copy="copy-quotes" aria-label="Copy Prompt: Relevant Quotes">
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="7" y="6" width="9" height="11" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M13 6V4.5A1.5 1.5 0 0 0 11.5 3h-7A1.5 1.5 0 0 0 3 4.5v9A1.5 1.5 0 0 0 4.5 15H7" stroke="currentColor" stroke-width="1.6"/></svg>
+              <span>Copy Prompt</span>
+            </button>
+          </div>
+          <p>Quote-টি যেন আপনার Concept Proposition-এর দিকে একটি <strong>intellectual entry point</strong> তৈরি করে।</p>
+          <p>যেমন:</p>
+          <blockquote class="quote-block">“We suffer more often in imagination than in reality.”</blockquote>
+          <p>তারপর আপনার নিজের প্রশ্ন:</p>
+          <p class="large-quote">তাহলে বাস্তব সমস্যার আগে আমাদের imagination-এ কী ঘটে?</p>
+          <p>এখানে Quote হলো <strong>trigger</strong>, আপনার question হলো <strong>bridge</strong>, Blog হলো <strong>unfolding space</strong>, এবং Concept Proposition হলো <strong>deeper destination</strong>।</p>
+          <textarea class="copy-source" id="copy-quotes" aria-hidden="true" tabindex="-1" readonly>### ৩. Relevant Quotes — সবচেয়ে বেশি সতর্কতা দরকার
+
+Quote-টি যেন আপনার Concept Proposition-এর দিকে একটি **intellectual entry point** তৈরি করে।
+
+যেমন:
+
+“We suffer more often in imagination than in reality.”
+
+তারপর আপনার নিজের প্রশ্ন:
+
+তাহলে বাস্তব সমস্যার আগে আমাদের imagination-এ কী ঘটে?
+
+এখানে Quote হলো **trigger**, আপনার question হলো **bridge**, Blog হলো **unfolding space**, এবং Concept Proposition হলো **deeper destination**।</textarea>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Copyright © <script>document.write(new Date().getFullYear())</script> Siva Prasad Mukherjee. All Rights Reserved.</p>
+  </footer>
+
+  <div class="toast" id="copy-toast" role="status" aria-live="polite">Prompt copied.</div>
+
+  <script>
+    (() => {
+      const toast = document.getElementById("copy-toast");
+      let toastTimer;
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("show");
+        window.clearTimeout(toastTimer);
+        toastTimer = window.setTimeout(() => toast.classList.remove("show"), 1800);
+      }
+
+      async function copyText(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          return;
+        }
+
+        const temporary = document.createElement("textarea");
+        temporary.value = text;
+        temporary.setAttribute("readonly", "");
+        temporary.style.position = "fixed";
+        temporary.style.opacity = "0";
+        document.body.appendChild(temporary);
+        temporary.select();
+        const copied = document.execCommand("copy");
+        temporary.remove();
+        if (!copied) throw new Error("Copy failed");
+      }
+
+      document.querySelectorAll("[data-copy]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const source = document.getElementById(button.dataset.copy);
+          if (!source) return;
+          try {
+            await copyText(source.value);
+            showToast("Prompt copied.");
+          } catch (error) {
+            showToast("Copy failed. Please try again.");
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
